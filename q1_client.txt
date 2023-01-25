@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+
+int main(){
+ int client_soc, randomNum;
+ struct sockaddr_in server_address;
+ 
+ client_soc = socket(AF_INET, SOCK_STREAM, 0);
+ server_address.sin_family = AF_INET;
+ server_address.sin_port = htons(8080);
+ server_address.sin_addr.s_addr = inet_addr("192.168.10.30");
+ connect(client_soc, (struct sockaddr *) &server_address, sizeof(server_address));
+ recv(client_soc, &randomNum, sizeof(randomNum), 0);
+ printf("Random Number is: %d\n", randomNum);
+ close(client_soc);
+ return 0;
+}
